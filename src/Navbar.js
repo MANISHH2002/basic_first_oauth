@@ -3,7 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Navbar() {
 
-    const { loginWithRedirect } = useAuth0();
+    const { loginWithRedirect, isAuthenticated, logout, user} = useAuth0();
+   
   return (
     <>
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -35,7 +36,18 @@ export default function Navbar() {
           <a className="nav-link disabled" aria-disabled="true">Disabled</a>
         </li>
       </ul>
-      <button className="btn btn-primary"  onClick={() => loginWithRedirect()}>Log In</button>
+      {
+        isAuthenticated && <p>{user.name}</p>
+      }
+      {
+        isAuthenticated ? (
+          <button className='btn btn-brimary' onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+          Log Out
+        </button>
+        ) : (   
+         <button className="btn btn-primary"  onClick={() => loginWithRedirect()}>Log In</button>
+        )
+      } 
     </div>
   </div>
 </nav>
